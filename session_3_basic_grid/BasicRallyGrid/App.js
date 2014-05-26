@@ -9,9 +9,19 @@ Ext.define('CustomApp', {
     // Entry Point to App
     launch: function() {
 
-      console.log('our first app');     // see console api: https://developers.google.com/chrome-developer-tools/docs/console-api
-      //this._loadData();                 // we need to prefix with 'this.' so we call a method found at the app level.
-	  this._loadIterations();
+		console.log('our first app');     // see console api: https://developers.google.com/chrome-developer-tools/docs/console-api
+      
+		// Setting a variable on the app, makes it a reference on the app
+		this.pulldownContainer = Ext.create('Ext.container.Container', {
+			id:'pulldown-container-id',
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			}
+		});
+	  
+		this.add(this.pulldownContainer);
+		this._loadIterations();
     },
 
 	_loadIterations: function() {
@@ -32,7 +42,7 @@ Ext.define('CustomApp', {
 			}
 		});
 		
-		this.add(this.iterComboBox);
+		this.pulldownContainer.add(this.iterComboBox);
 	},
 	
 	_loadSeverities: function() {
@@ -50,7 +60,7 @@ Ext.define('CustomApp', {
 			}
 		});
 		
-		this.add(this.severityComboBox);
+		this.pulldownContainer.add(this.severityComboBox);
 	},
 	
     // Get data from Rally
