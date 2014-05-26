@@ -17,14 +17,17 @@ Ext.define('CustomApp', {
 	_loadIterations: function() {
 		this.iterComboBox = Ext.create('Rally.ui.combobox.IterationComboBox', {
 			listeners: {
-				ready:function(combobox) {
+				ready: function(combobox) {
 					// var selectedIterRef = combobox.getRecord().get('_ref');
 					this._loadData();
 					
 					// console.log('ready', combobox);
 					// console.log('chosen one', combobox.getRecord().get('_ref'));
-					},
-					scope: this
+				},
+				select: function(combobox, records) {
+					this._loadData();
+				},
+				scope: this
 			}
 		});
 		
@@ -41,6 +44,13 @@ Ext.define('CustomApp', {
 		var myStore = Ext.create('Rally.data.wsapi.Store', {
           model: 'Defect',
           autoLoad: true,                         // <----- Don't forget to set this to true! heh
+		  filters:[
+			{
+				property: 'Iteration',
+				operation: '=',
+				value: selectedIterRef
+			}
+		  ],
           listeners: {
               load: function(myStore, myData, success) {
                   console.log('got data!', myStore, myData);
